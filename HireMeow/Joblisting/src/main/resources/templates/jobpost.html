@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HireMeow - Post a Job</title>
+  <style>
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center; 
+      padding: 30px;
+      background: linear-gradient(to right, #f4e1ff, #d6b8ff);
+      color: #4b3f72;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #5c4b8a;
+      margin-bottom: 30px;
+      font-size: 1.1em;
+    }
+
+    form { 
+      display: inline-block; 
+      text-align: left; 
+      background: #ffffffcc;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(75, 63, 114, 0.2);
+      animation: fadeIn 0.8s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    input, textarea { 
+      display: block; 
+      width: 300px; 
+      margin: 12px 0; 
+      padding: 12px; 
+      border-radius: 8px; 
+      border: 1px solid #bba4e0; 
+      font-size: 15px;
+      outline: none;
+      transition: 0.3s;
+      background: #f9f5ff;
+      color: #4b3f72;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #8e7cc3;
+      box-shadow: 0 0 10px rgba(142, 124, 195, 0.3);
+    }
+
+    textarea { resize: none; height: 80px; }
+
+    button { 
+      padding: 12px 25px; 
+      font-size: 16px; 
+      background: #8e7cc3; 
+      color: white; 
+      border: none; 
+      border-radius: 8px; 
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover { 
+      background: #6d5ba3; 
+      transform: scale(1.05);
+    }
+
+    .success-alert {
+      margin-top: 20px;
+      color: #6d5ba3;
+      font-size: 1.2em;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>🐾 Post a Job on HireMeow</h1>
+  <p>🚀 Share your job openings and find the perfect candidate easily! 😺</p>
+
+  <form id="jobForm" onsubmit="submitJob(event)">
+    <input type="text" id="profile" placeholder="💼 Job Profile" required>
+    <input type="number" id="exp" placeholder="⏳ Years of Experience" required>
+    <textarea id="desc" placeholder="📝 Job Description" required></textarea>
+    <input type="text" id="techs" placeholder="💻 Skills (comma-separated)" required>
+    <button type="submit">🚀 Post Job</button>
+  </form>
+
+  <div id="successMessage" class="success-alert">🎉 Job Posted Successfully! Redirecting...</div>
+
+  <script>
+    function submitJob(event) {
+      event.preventDefault();
+
+      const job = {
+        profile: document.getElementById('profile').value,
+        exp: parseInt(document.getElementById('exp').value),
+        desc: document.getElementById('desc').value,
+        techs: document.getElementById('techs').value.split(',').map(skill => skill.trim())
+      };
+
+      fetch('http://localhost:8080/post', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(job)
+      })
+      .then(res => res.json())
+      .then(() => {
+        // Show success message
+        const msg = document.getElementById('successMessage');
+        msg.style.display = 'block';
+        msg.innerHTML = '🎉 Job Posted Successfully! Redirecting...';
+
+        // Clear the form
+        document.getElementById('jobForm').reset();
+
+        // Redirect after 2 seconds
+        setTimeout(() => {
+          window.location.href = '/hire';
+        }, 3000);
+      })
+      .catch(() => alert('❌ Failed to post job. Please try again.'));
+    }
+  </script>
+</body>
+</html>

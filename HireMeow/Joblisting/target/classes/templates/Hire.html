@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Get Job - HireMeow</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px; 
+            background: linear-gradient(to right, #f3e8ff, #e0c3fc);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #5e3ea1;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            margin-bottom: 30px;
+        }
+
+        #searchInput {
+            padding: 10px;
+            width: 280px;
+            border: 2px solid #9d7ad1;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            background: #f9f5ff;
+            color: #4b3f72;
+        }
+
+        #searchInput:focus {
+            border-color: #6d5ba3;
+            box-shadow: 0 0 10px rgba(109, 91, 163, 0.4);
+        }
+
+        button {
+            margin-left: 10px;
+            padding: 10px 15px;
+            background: #8e7cc3;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #6d5ba3;
+        }
+
+        #jobsContainer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .job-card { 
+            border: 1px solid #d1b3ff; 
+            padding: 15px; 
+            margin: 10px; 
+            border-radius: 12px;
+            background: white;
+            width: 260px;
+            box-shadow: 0 4px 8px rgba(109,91,163,0.15);
+            transition: 0.3s;
+            text-align: left;
+            position: relative;
+        }
+
+        .job-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(109,91,163,0.3);
+        }
+
+        .job-card h3 {
+            color: #5e3ea1;
+        }
+
+        .job-card p {
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .emoji {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>💼 Available Jobs</h1>
+    
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="🔍 Search for jobs..." />
+        <button onclick="searchJobs()">Search</button>
+    </div>
+
+    <div id="jobsContainer"></div>
+
+    <script>
+        const jobsContainer = document.getElementById("jobsContainer");
+
+        // Function to display jobs in cards
+        function displayJobs(jobs) {
+            jobsContainer.innerHTML = "";
+            if(jobs.length === 0){
+                jobsContainer.innerHTML = "<p>❌ No jobs found.</p>";
+                return;
+            }
+            jobs.forEach(job => {
+                const card = document.createElement("div");
+                card.className = "job-card";
+                const emojis = ["💻","🛠️","📊","⚡","🌐","🚀"];
+                const randomEmoji = emojis[Math.floor(Math.random()*emojis.length)];
+                card.innerHTML = `
+                    <span class="emoji">${randomEmoji}</span>
+                    <h3>${job.profile}</h3>
+                    <p>${job.desc}</p>
+                    <p><strong>Experience:</strong> ${job.exp} years</p>
+                    <p><strong>Skills:</strong> ${job.techs.join(", ")}</p>
+                `;
+                jobsContainer.appendChild(card);
+            });
+        }
+
+        // Fetch all jobs on page load
+        function getAllJobs() {
+            fetch('http://localhost:8080/allposts')
+                .then(res => res.json())
+                .then(data => displayJobs(data))
+                .catch(err => console.error(err));
+        }
+
+        // Search jobs
+        function searchJobs() {
+            const text = document.getElementById("searchInput").value.trim();
+            if (text === "") {
+                getAllJobs(); // if search is empty, show all jobs
+            } else {
+                fetch('http://localhost:8080/posts/' + text)
+                    .then(res => res.json())
+                    .then(data => displayJobs(data))
+                    .catch(err => console.error(err));
+            }
+        }
+
+        // Load all jobs initially
+        getAllJobs();
+    </script>
+</body>
+</html>

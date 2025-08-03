@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HireMeow - Job Portal</title>
+  <style>
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center; 
+      padding: 50px; 
+      background: linear-gradient(to right, #f3e8ff, #e0c3fc);
+      color: #3a2c6d;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      color: #5e3ea1;
+    }
+
+    h1 span {
+      font-size: 1.2em;
+    }
+
+    p {
+      font-size: 1.2em;
+      color: #4b3f72;
+      margin-bottom: 40px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      background: #8e7cc3;
+      color: white;
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 12px rgba(142, 124, 195, 0.3);
+    }
+
+    button:hover {
+      background: #6d5ba3;
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px rgba(109, 91, 163, 0.5);
+    }
+
+    .emoji {
+      font-size: 1.3em;
+    }
+
+    footer {
+      margin-top: 60px;
+      color: #6b5ca5;
+      font-size: 0.9em;
+    }
+
+    footer span {
+      color: #9d7ad1;
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Project Name -->
+  <h1>🐾 HireMeow <span>💼</span></h1>
+  <p>🚀 Your one-stop portal to <strong>Get Hired</strong> or <strong>Hire Talent</strong> for free!  
+     Search, Post, and Explore exciting opportunities effortlessly. 😺</p>
+
+  <!-- Buttons Section -->
+  <div class="buttons">
+    <button onclick="window.location.href='/hire'">🔍 GET JOB</button>
+    <button onclick="window.location.href='/postjob'">➕ ADD JOB</button>
+  </div>
+
+  <footer>
+    Made with <span>💜</span> by HireMeow Team | Helping People Get Jobs Fast
+  </footer>
+</body>
+</html>
